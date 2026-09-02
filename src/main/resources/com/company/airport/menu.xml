@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+
+    <menu id="application" title="msg://com.company.airport/menu.application.title" opened="true">
+        <item view="User.list" title="msg://com.company.airport.view.user/UserListView.title"/>
+        <item view="Airport.list" title="msg://com.company.airport.view.airport/airportListView.title"/>
+        <item view="Airline.list" title="msg://com.company.airport.view.airline/airlineListView.title"/>
+        <item view="Flight.list" title="msg://com.company.airport.view.flight/flightListView.title"/>
+        <item view="Aircraft.list" title="msg://com.company.airport.view.aircraft/aircraftListView.title"/>
+        <item view="Passenger.list" title="msg://com.company.airport.view.passenger/passengerListView.title"/>
+        <item view="Ticket.list" title="msg://com.company.airport.view.ticket/ticketListView.title"/>
+        <item view="Seat.list" title="msg://com.company.airport.view.seat/seatListView.title"/>
+        <item view="FlightSeat.list" title="msg://com.company.airport.view.flightseat/flightSeatListView.title"/>
+        <item view="FlightPrice.list" title="msg://com.company.airport.view.flightprice/flightPriceListView.title"/>
+    </menu>
+
+</menu-config>

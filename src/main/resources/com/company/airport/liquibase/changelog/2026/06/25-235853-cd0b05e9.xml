@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="airport">
+        <createTable tableName="AIRCRAFT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_AIRCRAFT"/>
+            </column>
+            <column name="MODEL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REGISTRATION_NUMBER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CAPACITY" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="airport">
+        <createTable tableName="AIRLINE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_AIRLINE"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="airport">
+        <createTable tableName="AIRPORT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_AIRPORT"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CITY" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IATA_CODE" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="airport">
+        <createTable tableName="FLIGHT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FLIGHT"/>
+            </column>
+            <column name="NUMBER_" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AIRLINE_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEPARTURE_AIRPORT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ARRIVAL_AIRPORT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEPARTURE_TIME" type="${offsetDateTime.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ARRIVAL_TIME" type="${offsetDateTime.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AIRCRAFT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="airport">
+        <createTable tableName="FLIGHT_PRICE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FLIGHT_PRICE"/>
+            </column>
+            <column name="FLIGHT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEAT_CLASS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRICE" type="DECIMAL(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="airport">
+        <createTable tableName="FLIGHT_SEAT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FLIGHT_SEAT"/>
+            </column>
+            <column name="FLIGHT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEAT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IS_RESERVED" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="7" author="airport">
+        <createTable tableName="PASSENGER">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_PASSENGER"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSPORT_NUMBER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="8" author="airport">
+        <createTable tableName="SEAT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_SEAT"/>
+            </column>
+            <column name="SEAT_NUMBER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEAT_CLASS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AIRCRAFT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="9" author="airport">
+        <createTable tableName="TICKET">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TICKET"/>
+            </column>
+            <column name="PAID" type="BOOLEAN"/>
+            <column name="TICKET_NUMBER" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FLIGHT_SEAT_ID" type="UUID"/>
+            <column name="FLIGHT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSENGER_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRICE" type="DECIMAL(19, 2)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="10" author="airport">
+        <createIndex indexName="IDX_AIRCRAFT_UNQ" tableName="AIRCRAFT" unique="true">
+            <column name="REGISTRATION_NUMBER"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="11" author="airport">
+        <createIndex indexName="IDX_AIRLINE_UNQ" tableName="AIRLINE" unique="true">
+            <column name="CODE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="12" author="airport">
+        <createIndex indexName="IDX_AIRPORT_UNQ" tableName="AIRPORT" unique="true">
+            <column name="IATA_CODE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="13" author="airport">
+        <createIndex indexName="IDX_FLIGHT_AIRCRAFT" tableName="FLIGHT">
+            <column name="AIRCRAFT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="AIRCRAFT_ID" baseTableName="FLIGHT"
+                                 constraintName="FK_FLIGHT_ON_AIRCRAFT" referencedColumnNames="ID"
+                                 referencedTableName="AIRCRAFT"/>
+    </changeSet>
+    <changeSet id="14" author="airport">
+        <createIndex indexName="IDX_FLIGHT_AIRLINE" tableName="FLIGHT">
+            <column name="AIRLINE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="AIRLINE_ID" baseTableName="FLIGHT"
+                                 constraintName="FK_FLIGHT_ON_AIRLINE" referencedColumnNames="ID"
+                                 referencedTableName="AIRLINE"/>
+    </changeSet>
+    <changeSet id="15" author="airport">
+        <createIndex indexName="IDX_FLIGHT_ARRIVAL_AIRPORT" tableName="FLIGHT">
+            <column name="ARRIVAL_AIRPORT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ARRIVAL_AIRPORT_ID" baseTableName="FLIGHT"
+                                 constraintName="FK_FLIGHT_ON_ARRIVAL_AIRPORT" referencedColumnNames="ID"
+                                 referencedTableName="AIRPORT"/>
+    </changeSet>
+    <changeSet id="16" author="airport">
+        <createIndex indexName="IDX_FLIGHT_DEPARTURE_AIRPORT" tableName="FLIGHT">
+            <column name="DEPARTURE_AIRPORT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DEPARTURE_AIRPORT_ID" baseTableName="FLIGHT"
+                                 constraintName="FK_FLIGHT_ON_DEPARTURE_AIRPORT" referencedColumnNames="ID"
+                                 referencedTableName="AIRPORT"/>
+    </changeSet>
+    <changeSet id="17" author="airport">
+        <createIndex indexName="IDX_FLIGHT_PRICE_FLIGHT" tableName="FLIGHT_PRICE">
+            <column name="FLIGHT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="FLIGHT_ID" baseTableName="FLIGHT_PRICE"
+                                 constraintName="FK_FLIGHT_PRICE_ON_FLIGHT" referencedColumnNames="ID"
+                                 referencedTableName="FLIGHT"/>
+    </changeSet>
+    <changeSet id="18" author="airport">
+        <createIndex indexName="IDX_FLIGHT_SEAT_FLIGHT" tableName="FLIGHT_SEAT">
+            <column name="FLIGHT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="FLIGHT_ID" baseTableName="FLIGHT_SEAT"
+                                 constraintName="FK_FLIGHT_SEAT_ON_FLIGHT" referencedColumnNames="ID"
+                                 referencedTableName="FLIGHT"/>
+    </changeSet>
+    <changeSet id="19" author="airport">
+        <createIndex indexName="IDX_FLIGHT_SEAT_SEAT" tableName="FLIGHT_SEAT">
+            <column name="SEAT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="SEAT_ID" baseTableName="FLIGHT_SEAT"
+                                 constraintName="FK_FLIGHT_SEAT_ON_SEAT" referencedColumnNames="ID"
+                                 referencedTableName="SEAT"/>
+    </changeSet>
+    <changeSet id="20" author="airport">
+        <createIndex indexName="IDX_PASSENGER_UNQ" tableName="PASSENGER" unique="true">
+            <column name="PASSPORT_NUMBER"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="21" author="airport">
+        <createIndex indexName="IDX_SEAT_AIRCRAFT" tableName="SEAT">
+            <column name="AIRCRAFT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="AIRCRAFT_ID" baseTableName="SEAT" constraintName="FK_SEAT_ON_AIRCRAFT"
+                                 referencedColumnNames="ID" referencedTableName="AIRCRAFT"/>
+    </changeSet>
+    <changeSet id="22" author="airport">
+        <createIndex indexName="IDX_TICKET_FLIGHT" tableName="TICKET">
+            <column name="FLIGHT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="FLIGHT_ID" baseTableName="TICKET" constraintName="FK_TICKET_ON_FLIGHT"
+                                 referencedColumnNames="ID" referencedTableName="FLIGHT"/>
+    </changeSet>
+    <changeSet id="23" author="airport">
+        <createIndex indexName="IDX_TICKET_PASSENGER" tableName="TICKET">
+            <column name="PASSENGER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="PASSENGER_ID" baseTableName="TICKET"
+                                 constraintName="FK_TICKET_ON_PASSENGER" referencedColumnNames="ID"
+                                 referencedTableName="PASSENGER"/>
+    </changeSet>
+    <changeSet id="24" author="airport">
+        <addForeignKeyConstraint baseColumnNames="FLIGHT_SEAT_ID" baseTableName="TICKET"
+                                 constraintName="FK_TICKET_ON_FLIGHT_SEAT" referencedColumnNames="ID"
+                                 referencedTableName="FLIGHT_SEAT"/>
+    </changeSet>
+</databaseChangeLog>

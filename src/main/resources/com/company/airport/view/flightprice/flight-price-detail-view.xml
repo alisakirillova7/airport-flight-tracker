@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://flightPriceDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="flightPriceDc"
+                  class="com.company.airport.entity.FlightPrice">
+            <fetchPlan extends="_base">
+                <property name="flight" fetchPlan="_instance_name">
+                    <property name="departureAirport" fetchPlan="_base"/>
+                    <property name="arrivalAirport" fetchPlan="_base"/>
+                    <property name="departureTime"/>
+                    <property name="arrivalTime"/>
+                    <property name="aircraft" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="flightPriceDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="flightPriceDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <entityPicker id="flightField" property="flight">
+                <actions>
+                    <action id="entityLookupAction" type="entity_lookup"/>
+                    <action id="entityClearAction" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <select id="seatClassField" property="seatClass"/>
+            <textField id="priceField" property="price"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

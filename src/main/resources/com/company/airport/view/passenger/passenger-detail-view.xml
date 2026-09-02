@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://passengerDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="passengerDc"
+                  class="com.company.airport.entity.Passenger">
+            <fetchPlan extends="_base"/>
+            <loader id="passengerDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="passengerDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="firstNameField" property="firstName"/>
+            <textField id="lastNameField" property="lastName"/>
+            <textField id="passportNumberField" property="passportNumber">
+                <validators>
+                    <regexp regexp="^\d{4}\s\d{6}$"
+                            message="Неверный формат паспорта! Используйте формат: 1234 567890"/>
+                </validators>
+            </textField>
+            <textField id="emailField" property="email"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

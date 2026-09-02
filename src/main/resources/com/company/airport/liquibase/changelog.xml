@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <property name="offsetDateTime.type" dbms="postgresql" value="timestamp with time zone"/>
+    <include file="/io/jmix/data/liquibase/changelog.xml"/>
+    <include file="/io/jmix/flowuidata/liquibase/changelog.xml"/>
+    <include file="/io/jmix/securitydata/liquibase/changelog.xml"/>
+
+    <include file="com/company/airport/liquibase/changelog/010-init-user.xml"/>
+    <includeAll path="com/company/airport/liquibase/changelog/2026"/>
+
+</databaseChangeLog>

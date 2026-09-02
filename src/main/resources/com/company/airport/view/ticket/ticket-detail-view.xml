@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://ticketDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="ticketDc"
+                  class="com.company.airport.entity.Ticket">
+            <fetchPlan extends="_base">
+                <property name="flight" fetchPlan="_base">
+                    <property name="departureAirport" fetchPlan="_base"/>
+                    <property name="arrivalAirport" fetchPlan="_base"/>
+                </property>
+                <property name="passenger" fetchPlan="_base"/>
+                <property name="flightSeat" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="ticketDl"/>
+        </instance>
+
+        <collection id="flightSeatsDc" class="com.company.airport.entity.FlightSeat">
+            <fetchPlan extends="_base">
+                <property name="flight" fetchPlan="_base"/>
+                <property name="seat" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="flightSeatsDl">
+                <query><![CDATA[select e from FlightSeat e]]></query>
+            </loader>
+        </collection>
+    </data>
+
+    <facets>
+        <dataLoadCoordinator auto="false"/>
+    </facets>
+
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+
+    <layout>
+        <formLayout id="form" dataContainer="ticketDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+
+            <textField id="ticketNumberField" property="ticketNumber" readOnly="true" label="Номер билета"/>
+            <textField id="priceField" property="price" readOnly="true" label="Цена"/>
+            <entityComboBox id="flightSeatField"
+                            property="flightSeat"
+                            itemsContainer="flightSeatsDc"
+                            label="Seat on the flight"/>
+            <checkbox id="paidField" property="paid" label="Оплачен"/>
+
+            <entityPicker id="flightField" property="flight">
+                <actions>
+                    <action id="entityLookupAction" type="entity_lookup"/>
+                    <action id="entityClearAction" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="passengerField" property="passenger">
+                <actions>
+                    <action id="entityLookupAction" type="entity_lookup"/>
+                    <action id="entityClearAction" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveBtn" action="saveAction"/>
+            <button id="payBtn" text="Pay by card" themeNames="primary success"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://flightSeatDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="flightSeatDc"
+                  class="com.company.airport.entity.FlightSeat">
+            <fetchPlan extends="_base">
+                <property name="flight" fetchPlan="_base">
+                    <property name="departureAirport" fetchPlan="_base"/>
+                    <property name="arrivalAirport" fetchPlan="_base"/>
+                    <property name="aircraft" fetchPlan="_base"/>
+                </property>
+                <property name="seat" fetchPlan="_base">
+                    <property name="aircraft" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="flightSeatDl"/>
+        </instance>
+
+        <collection id="seatsDc" class="com.company.airport.entity.Seat">
+            <fetchPlan extends="_base"/>
+            <loader id="seatsDl">
+                <query><![CDATA[select e from Seat e]]></query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="flightSeatDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+
+            <entityPicker id="flightField" property="flight">
+                <actions>
+                    <action id="entityLookupAction" type="entity_lookup"/>
+                    <action id="entityClearAction" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+
+            <entityComboBox id="seatField"
+                            property="seat"
+                            itemsContainer="seatsDc"
+                            label="Место"/>
+
+            <checkbox id="isReservedField" property="isReserved"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

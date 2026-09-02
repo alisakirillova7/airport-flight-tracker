@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://flightListView.title"
+      focusComponent="flightsDataGrid">
+    <data>
+        <collection id="flightsDc"
+                    class="com.company.airport.entity.Flight">
+            <fetchPlan extends="_base">
+                <property name="departureAirport" fetchPlan="_base"/>
+                <property name="arrivalAirport" fetchPlan="_base"/>
+                <property name="aircraft" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="flightsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Flight e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="flightsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="flightsDataGrid.createAction"/>
+            <button id="editButton" action="flightsDataGrid.editAction"/>
+            <button id="removeButton" action="flightsDataGrid.removeAction"/>
+            <simplePagination id="pagination" dataLoader="flightsDl"/>
+        </hbox>
+        <dataGrid id="flightsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="flightsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="createAction" type="list_create"/>
+                <action id="editAction" type="list_edit"/>
+                <action id="removeAction" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="number"/>
+                <column property="airline"/>
+                <column property="departureAirport"/>
+                <column property="arrivalAirport"/>
+                <column property="departureTime"/>
+                <column property="arrivalTime"/>
+                <column property="aircraft"/>
+
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

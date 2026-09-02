@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://flightPriceListView.title"
+      focusComponent="flightPricesDataGrid">
+    <data>
+        <collection id="flightPricesDc"
+                    class="com.company.airport.entity.FlightPrice">
+            <fetchPlan extends="_base">
+                <property name="flight" fetchPlan="_instance_name">
+                    <property name="departureAirport" fetchPlan="_base"/>
+                    <property name="arrivalAirport" fetchPlan="_base"/>
+                    <property name="departureTime"/>
+                    <property name="arrivalTime"/>
+                    <property name="aircraft" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="flightPricesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from FlightPrice e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="flightPricesDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="flightPricesDataGrid.createAction"/>
+            <button id="editButton" action="flightPricesDataGrid.editAction"/>
+            <button id="removeButton" action="flightPricesDataGrid.removeAction"/>
+            <simplePagination id="pagination" dataLoader="flightPricesDl"/>
+        </hbox>
+        <dataGrid id="flightPricesDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="flightPricesDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="createAction" type="list_create"/>
+                <action id="editAction" type="list_edit"/>
+                <action id="removeAction" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="flight"/>
+                <column property="seatClass"/>
+                <column property="price"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>
